@@ -6,7 +6,7 @@ import {
   getSingleBooks,
   updateBooks,
 } from "./book.service";
-import { IBook } from "./book.interface";
+import { Book } from "./book.model";
 
 const createBooksController: RequestHandler = async (req, res) => {
   try {
@@ -29,15 +29,48 @@ const createBooksController: RequestHandler = async (req, res) => {
     });
   }
 };
-
 const getAllBookController: RequestHandler = async (req, res) => {
   try {
-    const books = await getAllBooks();
+    const { Title, Author, Genre, Publication_Date, searchQuery } = req.query;
+
+    const query: any = {};
+    if (Title) {
+      query.Title = { $regex: Title, $options: "i" };
+    }
+
+    if (Author) {
+      query.Author = { $regex: Author, $options: "i" };
+    }
+
+    if (Genre) {
+      query.Genre = { $regex: Genre, $options: "i" };
+      console.log(Genre, "1");
+    }
+
+    if (Publication_Date) {
+      query.Publication_Date = Publication_Date;
+    }
+    if (Genre) {
+      query.Genre = { $regex: Genre, $options: "i" };
+      console.log(Genre, "1");
+    } else if (Genre) {
+      query.Genre = Genre;
+      console.log(Genre, "2");
+    } else {
+      const searchRegex = new RegExp(searchQuery as string, "i");
+      query.$or = [{ Genre: searchRegex }, { Publication_Date: searchRegex }];
+      console.log(searchQuery);
+    }
+
+    const books = await Book.find(query);
+    const count = books.length;
+
     res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Get all Book  in successfully",
       data: {
+        count,
         books,
       },
     });
@@ -50,7 +83,6 @@ const getAllBookController: RequestHandler = async (req, res) => {
     });
   }
 };
-
 const getSingleBooksController: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id;
@@ -93,7 +125,6 @@ const deleterSingleBooksController: RequestHandler = async (req, res) => {
     });
   }
 };
-
 const updateBookController: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id;
