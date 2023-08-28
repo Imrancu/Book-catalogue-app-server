@@ -10,7 +10,8 @@ import { Book } from "./book.model";
 
 const createBooksController: RequestHandler = async (req, res) => {
   try {
-    const singleBook = await req.body;
+    const Email = req?.user?.email;
+    const singleBook = await { ...req.body, Email };
     const book = await createBooks(singleBook);
     res.status(200).json({
       success: true,
@@ -52,18 +53,18 @@ const getAllBookController: RequestHandler = async (req, res) => {
     }
     if (Genre) {
       query.Genre = { $regex: Genre, $options: "i" };
-      console.log(Genre, "1");
+      // console.log(Genre, "1");
     } else if (Genre) {
       query.Genre = Genre;
-      console.log(Genre, "2");
+      // console.log(Genre, "2");
     } else {
       const searchRegex = new RegExp(searchQuery as string, "i");
       query.$or = [{ Genre: searchRegex }, { Publication_Date: searchRegex }];
       console.log(searchQuery);
     }
 
-    const books = await Book.find(query);
-    const count = books.length;
+    const books = await Book?.find(query);
+    const count = books?.length;
 
     res.status(200).json({
       success: true,

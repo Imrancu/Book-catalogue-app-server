@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { createUser } from "./user.service";
-import { StatusCodes, UNAUTHORIZED } from "http-status-codes";
+import { StatusCodes } from "http-status-codes";
 import jwt, { Secret } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { User } from "./user.model";
@@ -10,7 +10,7 @@ const userCreateController: RequestHandler = async (req, res) => {
     const { password, name, email } = await req.body;
     const user = { password, name, email };
     const result = await createUser(user);
-    console.log(result);
+    // console.log(result);
 
     res.status(StatusCodes.OK).json({
       statusCode: StatusCodes.OK,
@@ -34,6 +34,7 @@ const userLoginController: RequestHandler = async (req, res) => {
   try {
     const { password, email, _id } = await req.body;
     const user = await User.findOne({ email });
+    // console.log(user);
 
     if (!user) {
       return res.status(404).json({
@@ -58,7 +59,7 @@ const userLoginController: RequestHandler = async (req, res) => {
 
     // Generate an access token
     const accessToken = jwt.sign(
-      { email: email, password: password, id: _id },
+      { email: email, password: password, _id },
       process.env.ACCESS_SECRET as Secret,
       { expiresIn: "1h" }
     );
@@ -86,7 +87,7 @@ const userLoginController: RequestHandler = async (req, res) => {
     res.status(StatusCodes.UNAUTHORIZED).json({
       statusCode: StatusCodes.UNAUTHORIZED,
       success: false,
-      message: "UNAUTHORIZED",
+      message: "UNAUTHORIZED USER",
       err: err,
     });
   }

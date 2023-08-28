@@ -1,16 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import { IBook, IReview } from "./book.interface";
-
-// Define the Review schema
-const reviewSchema = new Schema<IReview>({
-  user: { type: String, required: true },
-  rating: { type: Number, required: true },
-  comment: { type: String, required: true },
-});
+import { IBook } from "./book.interface";
 
 const bookSchema = new Schema<IBook>(
   {
+    Email: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     Title: {
       type: String,
       required: true,
@@ -37,7 +35,6 @@ const bookSchema = new Schema<IBook>(
       required: true,
       trim: true,
     },
-    Reviews: [reviewSchema],
   },
   {
     timestamps: true,
