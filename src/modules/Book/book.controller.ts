@@ -7,6 +7,7 @@ import {
   updateBooks,
 } from "./book.service";
 import { Book } from "./book.model";
+import { User } from "../user/user.model";
 
 const createBooksController: RequestHandler = async (req, res) => {
   try {
@@ -60,7 +61,7 @@ const getAllBookController: RequestHandler = async (req, res) => {
     } else {
       const searchRegex = new RegExp(searchQuery as string, "i");
       query.$or = [{ Genre: searchRegex }, { Publication_Date: searchRegex }];
-      console.log(searchQuery);
+      // console.log(searchQuery);
     }
 
     const books = await Book?.find(query);
@@ -108,15 +109,25 @@ const getSingleBooksController: RequestHandler = async (req, res) => {
 const deleterSingleBooksController: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id;
-    const deleteSinglebook = await deleteBooks(id);
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Deleted book in successfully",
-      data: {
-        deleteSinglebook,
-      },
-    });
+    const Email = await req?.user?.email;
+    const isUserCorrect = await Book?.findOne({ Email: Email });
+    if (Email === isUserCorrect?.Email) {
+      const deleteSinglebook = await deleteBooks(id);
+      res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Deleted book in successfully",
+        data: {
+          deleteSinglebook,
+        },
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "You are Not user",
+      });
+    }
   } catch (err) {
     res.status(404).json({
       success: false,
@@ -129,16 +140,30 @@ const deleterSingleBooksController: RequestHandler = async (req, res) => {
 const updateBookController: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id;
-    const data = await req.body;
-    const updatedBook = await updateBooks(id, data);
-    res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Updated Book  in successfully",
-      data: {
-        updatedBook,
-      },
-    });
+    // console.log(id, "ata id");
+
+    const Email = await req?.user?.email;
+    // console.log(Email, "ata email");
+
+    const isUserCorrect = await Book?.findOne({ Email: Email });
+    if (Email === isUserCorrect?.Email) {
+      const data = await req.body;
+      const updatedBook = await updateBooks(id, data);
+      res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Updated Book  in successfully",
+        data: {
+          updatedBook,
+        },
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "You are Not user",
+      });
+    }
   } catch (err) {
     res.status(404).json({
       success: false,

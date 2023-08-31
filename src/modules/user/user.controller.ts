@@ -59,9 +59,9 @@ const userLoginController: RequestHandler = async (req, res) => {
 
     // Generate an access token
     const accessToken = jwt.sign(
-      { email: email, password: password, _id },
+      { email: email, password: password, id: _id },
       process.env.ACCESS_SECRET as Secret,
-      { expiresIn: "1h" }
+      { expiresIn: "7d" }
     );
 
     // const refreshToken = jwt.sign(

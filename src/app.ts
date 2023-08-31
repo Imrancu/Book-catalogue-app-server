@@ -17,6 +17,8 @@ import { userRouter } from "./modules/user/user.routes";
 import { globalErrorHandler } from "./modules/shared/globalHandleError";
 import { bookRouter } from "./modules/Book/book.routes";
 import { reviewRouter } from "./modules/Review/review.route";
+import { readingRouter } from "./modules/ReadingList/ReadingList.Route";
+import { wishlistRouter } from "./modules/WishList/wishlist.route";
 
 // import orderRouter from "./modules/orders/order.router";
 const app: Application = express();
@@ -51,6 +53,8 @@ export const auth: RequestHandler = (req: any, res, next) => {
 app.use("/api/v1/", userRouter);
 app.use("/api/v1/", bookRouter);
 app.use("/api/v1/", reviewRouter);
+app.use("/api/v1/", readingRouter);
+app.use("/api/v1/", wishlistRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

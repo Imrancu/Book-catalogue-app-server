@@ -32,10 +32,10 @@ const createReviewController: RequestHandler = async (req, res) => {
 const getReviewController: RequestHandler = async (req, res) => {
   try {
     const id = req.params.bookId;
-    console.log(id);
+    // console.log(id);
 
     const result = await getReviewService(id);
-    console.log(result);
+    // console.log(result);
 
     res.status(StatusCodes.OK).json({
       success: true,
