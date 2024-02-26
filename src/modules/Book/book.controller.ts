@@ -14,7 +14,7 @@ const createBooksController: RequestHandler = async (req, res) => {
     const Email = req?.user?.email;
     const singleBook = await { ...req.body, Email };
     const book = await createBooks(singleBook);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Book added in successfully",
@@ -23,7 +23,7 @@ const createBooksController: RequestHandler = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(404).json({
+    return res.status(404).json({
       success: false,
       statusCode: 405,
       message: "Forbidden",
@@ -67,7 +67,7 @@ const getAllBookController: RequestHandler = async (req, res) => {
     const books = await Book?.find(query);
     const count = books?.length;
 
-    res.status(200).json({
+   return res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Get all Book  in successfully",
@@ -77,7 +77,7 @@ const getAllBookController: RequestHandler = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(404).json({
+  return  res.status(404).json({
       success: false,
       statusCode: 405,
       message: "Forbidden",
@@ -89,7 +89,7 @@ const getSingleBooksController: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id;
     const singlebook = await getSingleBooks(id);
-    res.status(200).json({
+   return res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Get Single book in successfully",
@@ -98,7 +98,7 @@ const getSingleBooksController: RequestHandler = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(404).json({
+   return res.status(404).json({
       success: false,
       statusCode: 405,
       message: "Forbidden",
@@ -113,7 +113,7 @@ const deleterSingleBooksController: RequestHandler = async (req, res) => {
     const isUserCorrect = await Book?.findOne({ Email: Email });
     if (Email === isUserCorrect?.Email) {
       const deleteSinglebook = await deleteBooks(id);
-      res.status(200).json({
+     return res.status(200).json({
         success: true,
         statusCode: 200,
         message: "Deleted book in successfully",
@@ -122,14 +122,14 @@ const deleterSingleBooksController: RequestHandler = async (req, res) => {
         },
       });
     } else {
-      res.status(404).json({
+     return res.status(404).json({
         success: false,
         statusCode: 404,
         message: "You are Not user",
       });
     }
   } catch (err) {
-    res.status(404).json({
+   return res.status(404).json({
       success: false,
       statusCode: 405,
       message: "Forbidden",
@@ -149,7 +149,7 @@ const updateBookController: RequestHandler = async (req, res) => {
     if (Email === isUserCorrect?.Email) {
       const data = await req.body;
       const updatedBook = await updateBooks(id, data);
-      res.status(200).json({
+     return res.status(200).json({
         success: true,
         statusCode: 200,
         message: "Updated Book  in successfully",
@@ -158,14 +158,14 @@ const updateBookController: RequestHandler = async (req, res) => {
         },
       });
     } else {
-      res.status(404).json({
+     return res.status(404).json({
         success: false,
         statusCode: 404,
         message: "You are Not user",
       });
     }
   } catch (err) {
-    res.status(404).json({
+   return res.status(404).json({
       success: false,
       statusCode: 405,
       message: "Forbidden",

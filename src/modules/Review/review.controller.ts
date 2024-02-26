@@ -9,7 +9,7 @@ const createReviewController: RequestHandler = async (req, res) => {
 
     console.log(result);
 
-    res.status(StatusCodes.OK).json({
+   return res.status(StatusCodes.OK).json({
       success: true,
       statusCode: 200,
       message: "Review added in successfully",
@@ -20,7 +20,7 @@ const createReviewController: RequestHandler = async (req, res) => {
   } catch (err) {
     console.log(err);
 
-    res.status(StatusCodes.BAD_REQUEST).json({
+   return res.status(StatusCodes.BAD_REQUEST).json({
       success: false,
       statusCode: 404,
       message: "Something went wrong",
@@ -37,7 +37,7 @@ const getReviewController: RequestHandler = async (req, res) => {
     const result = await getReviewService(id);
     // console.log(result);
 
-    res.status(StatusCodes.OK).json({
+ return   res.status(StatusCodes.OK).json({
       success: true,
       statusCode: 200,
       message: "Review get in successfully",
@@ -46,7 +46,7 @@ const getReviewController: RequestHandler = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(StatusCodes.BAD_REQUEST).json({
+  return  res.status(StatusCodes.BAD_REQUEST).json({
       success: false,
       statusCode: 404,
       message: "Something went wrong",

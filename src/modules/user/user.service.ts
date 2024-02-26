@@ -10,6 +10,10 @@ export const createUser = async (user: IUser) => {
   }
   return result;
 };
+
+export const getUser = async () => {
+  
+}
 // export const loginUser = async (user:string) => {
 //   const result = await User.create(user);
 //   // console.log(user);

@@ -12,7 +12,7 @@ const userCreateController: RequestHandler = async (req, res) => {
     const result = await createUser(user);
     // console.log(result);
 
-    res.status(StatusCodes.OK).json({
+  return  res.status(StatusCodes.OK).json({
       statusCode: StatusCodes.OK,
       success: true,
       message: "User Register successfully !Please Login",
@@ -21,7 +21,7 @@ const userCreateController: RequestHandler = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(StatusCodes.BAD_REQUEST).json({
+  return  res.status(StatusCodes.BAD_REQUEST).json({
       statusCode: StatusCodes.BAD_REQUEST,
       success: false,
       message: "User not SignIn successfully !",
@@ -75,7 +75,7 @@ const userLoginController: RequestHandler = async (req, res) => {
     //   httpOnly: true,
     // });
 
-    res.status(200).json({
+ return   res.status(200).json({
       success: true,
       statusCode: 200,
       message: "User logged in successfully",
@@ -84,7 +84,7 @@ const userLoginController: RequestHandler = async (req, res) => {
       },
     });
   } catch (err) {
-    res.status(StatusCodes.UNAUTHORIZED).json({
+  return  res.status(StatusCodes.UNAUTHORIZED).json({
       statusCode: StatusCodes.UNAUTHORIZED,
       success: false,
       message: "UNAUTHORIZED USER",

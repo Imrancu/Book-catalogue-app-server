@@ -15,14 +15,14 @@ const createWishListController: RequestHandler = async (req, res) => {
     const result = await wishlistService(wishlistBookService);
     // console.log(result);
 
-    res.status(200).json({
+  return  res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Get ReadingList  in successfully",
       data: result,
     });
   } catch (err) {
-    res.status(404).json({
+  return  res.status(404).json({
       success: false,
       statusCode: 404,
       message: "Soming went wrong",
@@ -35,14 +35,14 @@ const getWishlistBookController: RequestHandler = async (req, res) => {
   try {
     const Email = await req?.user?.email;
     const result = await wishlistServiceGet(Email);
-    res.status(200).json({
+ return  res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Get wishList  in successfully",
       data: result,
     });
   } catch (err) {
-    res.status(404).json({
+ return   res.status(404).json({
       success: false,
       statusCode: 404,
       message: "Soming went wrong",
@@ -58,14 +58,14 @@ const wishlistDeleteController: RequestHandler = async (req, res) => {
     const result = await wishlistServiceDelete(id);
     // console.log(result);
 
-    res.status(200).json({
+ return   res.status(200).json({
       success: true,
       statusCode: 200,
       message: "Delete wishList  in successfully",
       data: result,
     });
   } catch (err) {
-    res.status(404).json({
+  return  res.status(404).json({
       success: false,
       statusCode: 404,
       message: "Soming went wrong",
