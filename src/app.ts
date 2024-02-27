@@ -57,7 +57,7 @@ app.use("/api/v1/", readingRouter);
 app.use("/api/v1/", wishlistRouter);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Book app server is running!");
 });
 // app.use(globalErrorHandler);
 
